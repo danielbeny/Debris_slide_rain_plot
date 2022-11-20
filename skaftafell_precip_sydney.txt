@@ -1,0 +1,70 @@
+import pandas as pd
+from datetime import datetime as dt
+from datetime import timedelta as td
+#import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+import matplotlib.mlab as mlab
+from matplotlib.dates import DateFormatter
+from matplotlib.dates import DayLocator
+from matplotlib import pyplot
+import plotly.graph_objects as go
+
+#read temperature data and store as variables
+headers = ['id','TIMI','T','D','F','FG']
+temp = pd.read_csv('C:\\pyhton_processing\\Debris_slide_rain_plot\\temp1702-0103.csv'
+,names = headers, usecols=['TIMI','T'], parse_dates=['TIMI'], dayfirst=True)
+temp.info()
+
+ttemp = temp['TIMI']
+tmpr = temp['T']
+
+#read rain data and store as variables
+headers2 = ['id','dt','R','RA']
+rain = pd.read_csv('C:\\pyhton_processing\\Debris_slide_rain_plot\\rain1702-0103.csv',names = headers2,usecols=['dt','R','RA'], parse_dates=['dt'], dayfirst=True)
+
+r = rain['R']
+ra = rain['RA']
+rain.info()
+#print (rain['dt'])
+#print (TTIMI)
+#print (RTIMI)
+
+#temp.set_index('TIMI',inplace=True)
+#rain.set_index('dt',inplace=True)
+
+#print (rain.index)
+#print (temp.index)
+
+#subplot that was working but wrong dates on bar graph
+#fig, (ax1,ax2,ax3 ) = plt.subplots(3,1)
+
+#working correctly but missing day precip bar graph
+fig, (ax1,ax2,ax3) = plt.subplots(3,1)
+
+ax1.plot(temp['TIMI'], tmpr, color='red')
+ax1.set_ylabel('temperature')
+ax1.xaxis.set_major_locator(mdates.DayLocator(interval=1))
+
+#rain.set_index('dt',inplace=True)
+
+
+#ax2 = r.plot(kind='bar')
+#ax2.xaxis.set_major_locator(mdates.DayLocator(interval=1))
+
+ax3.plot(rain['dt'], ra, color='green')
+ax3.set_ylabel('mm')
+#ax2.xaxis_date()
+ax3.xaxis.set_major_locator(mdates.DayLocator(interval=1))
+
+
+#ax2 = plt.gca()
+fig.tight_layout()
+fig.autofmt_xdate(bottom=0.2, rotation=30)
+
+plt.show()
+
+
+
+
+
